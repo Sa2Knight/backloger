@@ -34,6 +34,13 @@ class Identifier
     type.id
   end
 
+  def category(projectId, categoryName)
+    category = @client.get_categories(projectId).body.find do |ct|
+      ct.name == categoryName
+    end
+    category.id
+  end
+
   def status(label)
     status = @client.get_statuses.body.find do |st|
       st.name == label
