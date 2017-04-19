@@ -9,10 +9,10 @@ class Backlog
   end
 
   # 自信が担当になっており、完了していない課題の一覧を取得
-  def showIncompleteMyIssues
+  def showIncompleteMyIssues(projectName, userName)
     issues = @client.get_issues({
-      :projectId => [@identifier.project('DEV')],
-      :assigneeId => [@identifier.user('sa2knight')],
+      :projectId => [@identifier.project(projectName)],
+      :assigneeId => [@identifier.user(userName)],
       :statusId => [
         @identifier.status('未対応'),
         @identifier.status('処理中'),
