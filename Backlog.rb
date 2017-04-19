@@ -3,23 +3,25 @@ require_relative 'Identifier'
 
 class Backlog
 
-  def initialize(client)
+  def initialize(client, projectName, userName)
     @client = client
     @identifier = Identifier.new(client)
+    @projectId = @identifier.project(projectName)
+    @userId = @identifier.user(userName)
   end
 
   # 自信が担当になっており、完了していない課題の一覧を取得
-  def showIncompleteMyIssues(projectName, userName)
+  def showIncompleteMyIssues
     issues = @client.get_issues({
-      :projectId => [@identifier.project(projectName)],
-      :assigneeId => [@identifier.user(userName)],
+      :projectId => [@projectId],
+      :assigneeId => [@userId],
       :statusId => [
         @identifier.status('未対応'),
         @identifier.status('処理中'),
         @identifier.status('処理済み'),
       ]
     })
-    issues.body.select { |i| i.summary }
+    issues.body
   end
 
 end
