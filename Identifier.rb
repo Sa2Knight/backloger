@@ -6,6 +6,13 @@ class Identifier
     @client = client
   end
 
+  def user(userName)
+    user = @client.get_users.body.find do |u|
+      u.name == userName
+    end
+    user.id
+  end
+
   def project(projectKey)
     project = @client.get_projects.body.find do |pb|
       pb.projectKey == projectKey
