@@ -10,8 +10,8 @@ class Backlog
     @userName = userName
   end
 
-  # 自信が担当になっており、完了していない課題の一覧を取得
-  def showIncompleteMyIssues
+  # 自信が担当になっており、完了していない課題の一覧を標準出力
+  def printIncompleteMyIssues
     issues = @client.get_issues({
       :projectId => [@projectId],
       :assigneeId => [@identifier.user(@userName)],
@@ -21,7 +21,9 @@ class Backlog
         @identifier.status('処理済み'),
       ]
     })
-    issues.body
+    issues.body.each do |i|
+      puts "#{i.issueKey} #{i.summary}"
+    end
   end
 
   # 課題を新規登録する
